@@ -4,20 +4,23 @@ FROM eclipse-temurin:21-jdk-jammy AS builder
 # 작업 디렉토리를 /app으로 설정
 WORKDIR /app
 
-# Maven wrapper 파일 복사 (Docker 레이어 캐싱 활용을 위해 먼저 복사)
+# Maven wrapper 파일 복사
 COPY mvnw .
 COPY .mvn .mvn
 
+# mvnw 스크립트에 실행 권한 부여 <--- 이 줄을 추가합니다!
+RUN chmod +x mvnw
+
 # pom.xml 복사 및 의존성 다운로드
 COPY pom.xml .
-RUN ./mvnw dependency:go-offline -B # <--- 여기를 수정했습니다!
+RUN ./mvnw dependency:go-offline -B # <--- 주석 제거!
 
 # 나머지 소스 코드 복사
 COPY src ./src
 
 # Spring Boot 애플리케이션 빌드
 # 테스트 스킵(-DskipTests)하여 빌드 시간 단축
-RUN ./mvnw clean package -DskipTests # <--- 여기도 수정했습니다!
+RUN ./mvnw clean package -DskipTests # <--- 주석 제거!
 
 # Stage 2: 최종 실행 이미지 생성
 FROM eclipse-temurin:21-jre-jammy
