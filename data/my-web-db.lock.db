@@ -1,0 +1,6 @@
+#FileLock
+#Thu Oct 23 15:27:46 KST 2025
+hostName=MAGNUM-240130
+id=19a0fc07fdb0c56db191dde50643e5fd347fdcb72f4
+method=file
+server=192.168.0.33\:4163
